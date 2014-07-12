@@ -59,8 +59,19 @@ class Particle(object):
         self.v[0] = -self.v[0]
     
     def bounceParticle(self, particle):
-        pass
-    
+        deltax = self._x - particle._x
+        deltav = self._v - particle._v
+        R = self._r + particle._r
+        J = 2.0*self._m * particle._m *np.dot(deltav, deltax)/(R*self._m + particle._m)
+
+        Jx = J*(self.x_x[0]-particle.x[0])/R
+        Jy = J*(self.x_x[1]-particle.x[1])/R
+        
+        self._v += np.array([Jx/self._m, Jy/self._m])
+        particle._v -= np.array([Jx/particle._m, Jy/particle._m])
+        
+
+
     def getCollisionCountAsCopy(self):
         return copy(self.NumberOfCollisions)
         
