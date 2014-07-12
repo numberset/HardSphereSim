@@ -21,19 +21,19 @@ class Particle(object):
         if self._v[0]==0:
             return None
         
-        if self.v[1] > 0.0:
+        if self._v[0] > 0.0:
             return (1.0 - self._r - self.x_x[0])/self._v[0]
         else:
-            return (self._r - self.x_x[0])/self._v[0]
+            return (self._r - self._x[0])/self._v[0]
         
     def collidesWallX(self):
-        if self._v[0]==0:
+        if self._v[1]==0:
             return None
         
-        if self.v[1] > 0.0:
+        if self._v[1] > 0.0:
             return (1.0 - self._r - self.x_x[0])/self._v[0]
         else:
-            return (self._r - self.x_x[0])/self._v[0]
+            return (self._r - self._x[0])/self._v[0]
     
     def collideParticle(self, particle):
         
@@ -76,5 +76,12 @@ class Particle(object):
         return copy(self.NumberOfCollisions)
         
     
+if __name__ == '__main__':
     
+    a = Particle(np.array([0.1, 0.5]), np.array([0.0, 0.0]), 0.05, 2.0)
+    b = Particle(np.array([0.4, 0.5]), np.array([-0.1, 0.0]), 0.05, 2.0)
             
+    print a.collideParticle(b)
+    
+    print b.collidesWallX()
+    print b.collidesWallY()
