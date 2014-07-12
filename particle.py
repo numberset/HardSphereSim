@@ -17,7 +17,7 @@ class Particle(object):
         self.NumberOfCollisions = 0
         
     
-    def collidesWallX(self):
+    def collidesWallY(self):
         if self._v[0]==0:
             return None
         
@@ -26,7 +26,7 @@ class Particle(object):
         else:
             return (self._r - self.x_x[0])/self._v[0]
         
-    def collidesWallY(self):
+    def collidesWallX(self):
         if self._v[0]==0:
             return None
         
@@ -53,10 +53,10 @@ class Particle(object):
     
     
     def bounceX(self):
-        pass
+        self.v[1] = -self.v[1]
     
     def bounceY(self):
-        pass
+        self.v[0] = -self.v[0]
     
     def bounceParticle(self, particle):
         pass
