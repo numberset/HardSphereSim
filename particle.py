@@ -74,6 +74,9 @@ class Particle(object):
 
     def getCollisionCountAsCopy(self):
         return copy(self.NumberOfCollisions)
+    
+    def advance(self, time):
+        self._x += time*self._v
         
     
 if __name__ == '__main__':
