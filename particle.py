@@ -53,24 +53,24 @@ class Particle(object):
     
     
     def bounceX(self):
-        self.v[1] = -self.v[1]
+        self._v[1] = -self._v[1]
         self.NumberOfCollisions += 1
     
     def bounceY(self):
-        self.v[0] = -self.v[0]
+        self._v[0] = -self._v[0]
         self.NumberOfCollisions += 1
     
     def bounceParticle(self, particle):
         deltax = self._x - particle._x
         deltav = self._v - particle._v
         R = self._r + particle._r
-        J = 2.0*self._m * particle._m *np.dot(deltav, deltax)/(R*self._m + particle._m)
+        J = 2.0*self._m * particle._m *np.dot(deltav, deltax)/(R*(self._m + particle._m))
 
-        Jx = J*(self.x_x[0]-particle.x[0])/R
-        Jy = J*(self.x_x[1]-particle.x[1])/R
+        Jx = J*(self._x[0]-particle._x[0])/R
+        Jy = J*(self._x[1]-particle._x[1])/R
         
-        self._v += np.array([Jx/self._m, Jy/self._m])
-        particle._v -= np.array([Jx/particle._m, Jy/particle._m])
+        self._v -= np.array([Jx/self._m, Jy/self._m])
+        particle._v += np.array([Jx/particle._m, Jy/particle._m])
         
         self.NumberOfCollisions += 1
 
@@ -91,5 +91,14 @@ if __name__ == '__main__':
     
     print b.collidesWallX()
     print b.collidesWallY()
+    
+    print "impulse before:", a._m*a._v + b._m*b._v
+    print "energy before:", 0.5*a._m*np.dot(a._v,a._v) + 0.5*b._m*np.dot(b._v,b._v)
+    
+    b.advance(a.collideParticle(b))
+    a.bounceParticle(b)
+    
+    print "impulse after:", a._m*a._v + b._m*b._v
+    print "energy after:", 0.5*a._m*np.dot(a._v,a._v) + 0.5*b._m*np.dot(b._v,b._v)
     
     
