@@ -12,6 +12,7 @@ class Particle(object):
         self._v = velocity
         self._r = radius
         self._m = mass
+        self.t = 0.0
         
         #Collision number
         self.NumberOfCollisions = 0
@@ -80,7 +81,7 @@ class Particle(object):
     
     def advance(self, time):
         self._x += time*self._v
-        
+        self.t += time
     
 if __name__ == '__main__':
     
