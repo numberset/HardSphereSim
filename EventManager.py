@@ -11,6 +11,19 @@ class EventParticle(object):
         
         self.id = (self.particle1.getCollisionCountAsCopy(), self.particle2.getCollisionCountAsCopy())
         self.timeUntilCollision = self.particle1.collideParticle(self.particle2)
+        
+    def isValid(self):
+        return self.id == (self.particle1.getCollisionCountAsCopy(), self.particle2.getCollisionCountAsCopy())
+
+    def reevaluateCollisionTime(self):
+        self.id = (self.particle1.getCollisionCountAsCopy(), self.particle2.getCollisionCountAsCopy())
+        self.timeUntilCollision = self.particle1.collideParticle(self.particle2)
+    
+    def doCollision(self):
+        self.particle1.bounceParticle(self.particle2)
+        self.reevaluateCollisionTime()
+    
+
     
 class EventWallX(object):
     
@@ -19,9 +32,32 @@ class EventWallX(object):
         self.id = self.particle.getCollisionCountAsCopy()
         self.timeUntilCollision = self.particle.collideWallX()
     
+    
+    def isValid(self):
+        return self.id == self.particle.getCollisionCountAsCopy()
+
+    def reevaluateCollisionTime(self):
+        self.id = self.particle1.getCollisionCountAsCopy()
+        self.timeUntilCollision = self.particle.collideWallX()
+    
+    def doCollision(self):
+        self.particle1.bounceX()
+        self.reevaluateCollisionTime()
+    
 class EventWallY(object):
     
     def __init__(self, particle):
         self.particle = particle
         self.id = self.particle.getCollisionCountAsCopy()
         self.timeUntilCollision = self.particle.collideWallY()
+        
+    def isValid(self):
+        return self.id == self.particle.getCollisionCountAsCopy()
+
+    def reevaluateCollisionTime(self):
+        self.id = self.particle1.getCollisionCountAsCopy()
+        self.timeUntilCollision = self.particle.collideWallY()
+    
+    def doCollision(self):
+        self.particle1.bounceY()
+        self.reevaluateCollisionTime()
