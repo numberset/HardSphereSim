@@ -114,6 +114,7 @@ class EventManager(object):
             
 if __name__ == '__main__':
     import numpy as np
+    import pylab as plt
     
     a = Particle(np.array([0.1, 0.5]), np.array([0.0, 0.0]), 0.05, 2.0)
     b = Particle(np.array([0.4, 0.5]), np.array([-0.1, 0.0]), 0.05, 2.0)
@@ -121,11 +122,11 @@ if __name__ == '__main__':
     manager = EventManager([a,b])
     
     for i in range(20):
-        print a._x
-        print a._v
-        print "----------------"
-        print b._x
-        print b._v
+        plt.title(a.t)
+        plt.scatter([a._x[0], b._x[0]], [a._x[1], b._x[1]])
+        plt.xlim([0,1])
+        plt.ylim([0,1])
+        plt.show()
         
         manager.step()
         
