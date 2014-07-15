@@ -23,7 +23,7 @@ class Particle(object):
             return None
         
         if self._v[0] > 0.0:
-            return (1.0 - self._r - self.x_x[0])/self._v[0]
+            return (1.0 - self._r - self._x[0])/self._v[0]
         else:
             return (self._r - self._x[0])/self._v[0]
         
@@ -32,7 +32,7 @@ class Particle(object):
             return None
         
         if self._v[1] > 0.0:
-            return (1.0 - self._r - self.x_x[0])/self._v[0]
+            return (1.0 - self._r - self._x[0])/self._v[0]
         else:
             return (self._r - self._x[0])/self._v[0]
     

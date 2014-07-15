@@ -2,8 +2,9 @@
 Module defining the Event class which is used to manage collissions and check their validity
 """
 
-from itertools import product
+from itertools import combinations
 from copy import copy
+from particle import Particle
 
 class EventParticle(object):
     
@@ -32,35 +33,35 @@ class EventWallX(object):
     def __init__(self, particle):
         self.particle = particle
         self.id = self.particle.getCollisionCountAsCopy()
-        self.timeUntilCollision = self.particle.collideWallX()
+        self.timeUntilCollision = self.particle.collidesWallX()
     
     
     def isValid(self):
         return self.id == self.particle.getCollisionCountAsCopy()
 
     def reevaluateCollisionTime(self):
-        self.id = self.particle1.getCollisionCountAsCopy()
-        self.timeUntilCollision = self.particle.collideWallX()
+        self.id = self.particle.getCollisionCountAsCopy()
+        self.timeUntilCollision = self.particle.collidesWallX()
     
     def doCollision(self):
-        self.particle1.bounceX()
+        self.particle.bounceX()
     
 class EventWallY(object):
     
     def __init__(self, particle):
         self.particle = particle
         self.id = self.particle.getCollisionCountAsCopy()
-        self.timeUntilCollision = self.particle.collideWallY()
+        self.timeUntilCollision = self.particle.collidesWallY()
         
     def isValid(self):
         return self.id == self.particle.getCollisionCountAsCopy()
 
     def reevaluateCollisionTime(self):
-        self.id = self.particle1.getCollisionCountAsCopy()
-        self.timeUntilCollision = self.particle.collideWallY()
+        self.id = self.particle.getCollisionCountAsCopy()
+        self.timeUntilCollision = self.particle.collidesWallY()
     
     def doCollision(self):
-        self.particle1.bounceY()
+        self.particle.bounceY()
 
         
 
@@ -71,7 +72,7 @@ class EventManager(object):
         self.ListOfParticles = ListOfParticles
         self.ListOfEvents = []
         
-        for (particle1, particle2) in product(self.ListOfParticles, 2):
+        for (particle1, particle2) in combinations(self.ListOfParticles, 2):
             self.ListOfEvents.append(EventParticle(particle1, particle2))
             
         for particle in self.ListOfParticles:
@@ -108,7 +109,25 @@ class EventManager(object):
         self.ListOfEvents[0].doCollision()
         
         for event in self.ListOfEvents:
-            event.timeUntilCollision -= collTime
+            if event.timeUntilCollision is not None:
+                event.timeUntilCollision -= collTime
+            
+if __name__ == '__main__':
+    import numpy as np
+    
+    a = Particle(np.array([0.1, 0.5]), np.array([0.0, 0.0]), 0.05, 2.0)
+    b = Particle(np.array([0.4, 0.5]), np.array([-0.1, 0.0]), 0.05, 2.0)
+    
+    manager = EventManager([a,b])
+    
+    for i in range(20):
+        print a._x
+        print a._v
+        print "----------------"
+        print b._x
+        print b._v
+        
+        manager.step()
         
         
         
