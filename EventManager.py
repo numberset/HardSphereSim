@@ -78,7 +78,13 @@ class EventManager(object):
         for particle in self.ListOfParticles:
             self.ListOfEvents.append(EventWallX(particle))
             self.ListOfEvents.append(EventWallY(particle))
+        
+        self.sortEventList()
+        
+        
             
+    def sortEventList(self):
+        self.ListOfEvents = sorted(self.ListOfEvents, key=lambda x: x.timeUntilCollision)
         
         
             
