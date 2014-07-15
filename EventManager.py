@@ -24,7 +24,6 @@ class EventParticle(object):
     
     def doCollision(self):
         self.particle1.bounceParticle(self.particle2)
-        self.reevaluateCollisionTime()
     
 
     
@@ -45,7 +44,6 @@ class EventWallX(object):
     
     def doCollision(self):
         self.particle1.bounceX()
-        self.reevaluateCollisionTime()
     
 class EventWallY(object):
     
@@ -63,7 +61,7 @@ class EventWallY(object):
     
     def doCollision(self):
         self.particle1.bounceY()
-        self.reevaluateCollisionTime()
+
         
 
 class EventManager(object):
@@ -95,7 +93,6 @@ class EventManager(object):
         self.ListOfEvents = sorted(self.ListOfEvents, key=sorting_closure)
         
     def step(self):
-        self.sortEventList()
         
         for event in self.ListOfEvents:
             if not event.isValid():
