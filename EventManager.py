@@ -2,6 +2,8 @@
 Module defining the Event class which is used to manage collissions and check their validity
 """
 
+from itertools import product
+
 class EventParticle(object):
     
     def __init__(self, particle1, particle2):
@@ -61,3 +63,24 @@ class EventWallY(object):
     def doCollision(self):
         self.particle1.bounceY()
         self.reevaluateCollisionTime()
+        
+
+class EventManager(object):
+    
+    def __init__(self, ListOfParticles):
+        
+        self.ListOfParticles = ListOfParticles
+        self.ListOfEvents = []
+        
+        for (particle1, particle2) in product(self.ListOfParticles, 2):
+            self.ListOfEvents.append(EventParticle(particle1, particle2))
+            
+        for particle in self.ListOfParticles:
+            self.ListOfEvents.append(EventWallX(particle))
+            self.ListOfEvents.append(EventWallY(particle))
+            
+        
+        
+            
+        
+        
