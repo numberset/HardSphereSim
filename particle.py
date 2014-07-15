@@ -74,7 +74,7 @@ class Particle(object):
         particle._v += np.array([Jx/particle._m, Jy/particle._m])
         
         self.NumberOfCollisions += 1
-
+        particle.NumberOfCollisions += 1
 
     def getCollisionCountAsCopy(self):
         return copy(self.NumberOfCollisions)

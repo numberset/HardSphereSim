@@ -3,6 +3,7 @@ Module defining the Event class which is used to manage collissions and check th
 """
 
 from itertools import product
+from copy import copy
 
 class EventParticle(object):
     
@@ -85,6 +86,26 @@ class EventManager(object):
             
     def sortEventList(self):
         self.ListOfEvents = sorted(self.ListOfEvents, key=lambda x: x.timeUntilCollision)
+        
+    def step(self):
+        self.sortEventList()
+        
+        for event in self.ListOfEvents:
+            if not event.isValid():
+                event.reevaluateCollisionTime()
+        
+        self.sortEventList()
+        
+        collTime = copy(self.ListOfEvents[0].timeUntilCollision)
+        
+        for particle in self.ListOfParticles:
+            particle.advance(collTime)
+            
+        self.ListOfEvents[0].doCollision()
+        
+        for event in self.ListOfEvents:
+            event.timeUntilCollision -= collTime
+        
         
         
             
