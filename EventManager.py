@@ -85,7 +85,14 @@ class EventManager(object):
         
             
     def sortEventList(self):
-        self.ListOfEvents = sorted(self.ListOfEvents, key=lambda x: x.timeUntilCollision)
+        
+        def sorting_closure(event):
+            if event.timeUntilCollision is None:
+                return 1.0e7
+            else:
+                return event.timeUntilCollision
+        
+        self.ListOfEvents = sorted(self.ListOfEvents, key=sorting_closure)
         
     def step(self):
         self.sortEventList()
