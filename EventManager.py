@@ -86,7 +86,7 @@ class EventManager(object):
     def sortEventList(self):
         
         def sorting_closure(event):
-            if event.timeUntilCollision is None:
+            if event.timeUntilCollision is None or event.timeUntilCollision < 0.0:
                 return 1.0e7
             else:
                 return event.timeUntilCollision
@@ -116,14 +116,16 @@ if __name__ == '__main__':
     import numpy as np
     import pylab as plt
     
-    a = Particle(np.array([0.1, 0.5]), np.array([0.0, 0.0]), 0.05, 2.0)
-    b = Particle(np.array([0.4, 0.5]), np.array([-0.1, 0.0]), 0.05, 2.0)
+    a = Particle(np.array([0.1, 0.5]), np.array([0.01, 0.1]), 0.05, 2.0)
+    b = Particle(np.array([0.4, 0.5]), np.array([-0.1, 0.01]), 0.05, 2.0)
     
     manager = EventManager([a,b])
     
     for i in range(20):
         plt.title(a.t)
         plt.scatter([a._x[0], b._x[0]], [a._x[1], b._x[1]])
+        print a._x
+        print b._x
         plt.xlim([0,1])
         plt.ylim([0,1])
         plt.show()
