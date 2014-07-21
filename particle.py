@@ -32,9 +32,9 @@ class Particle(object):
             return None
         
         if self._v[1] > 0.0:
-            return (1.0 - self._r - self._x[0])/self._v[0]
+            return (1.0 - self._r - self._x[1])/self._v[1]
         else:
-            return (self._r - self._x[0])/self._v[0]
+            return (self._r - self._x[1])/self._v[1]
     
     def collideParticle(self, particle):
         
